@@ -1,9 +1,12 @@
 import React,{useState} from 'react';
 import './App.css';
+import Search from './Search';
+
 
 function App() {
 
   const [formData, setFormData] = useState({ date: '', description: '', category: '', amount: '' });
+
 
   const [transactions, setTransactions] = useState([
     { date: '2024-04-26', description: 'Payment Received', category: 'Income', amount: 1000.00 },
@@ -17,8 +20,6 @@ function App() {
     { date: '2024-04-18', description: 'Fuel cars', category: 'Utilities', amount: -8000.00 }
 
   ]); 
-
-  const [searchQuery, setSearchQuery] = useState('');
 
   function handleInputChange(e) {
     const { id, value } = e.target;
@@ -34,16 +35,6 @@ function App() {
     }
   };
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const filteredTransactions = transactions.filter((transaction) =>
-    transaction.date.includes(searchQuery) ||
-    transaction.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    transaction.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    transaction.amount.toString().includes(searchQuery)
-  );
 
 
   return (
@@ -51,11 +42,10 @@ function App() {
       <div className="header">
         <h1>The Royal Bank of Flatiron</h1>
       </div>
-      <form className="search-bar">
-        <input placeholder='Search your Recent Transactions' className="search-input" onChange={handleSearch} />
-      </form>
+      
+      <div>
 
-      <form className="transaction-form">
+         <form className="transaction-form">
         <input id='date' placeholder='Date' className="input-field" value={formData.date} onChange={handleInputChange}/>
         <input id='description' placeholder='Description' className="input-field" value={formData.description} onChange={handleInputChange}/>
         <input id='category' placeholder='Category' className="input-field" value={formData.category} onChange={handleInputChange}/>
@@ -64,28 +54,10 @@ function App() {
 
       <button className="add-button" onClick={handleAddTransaction}>Add Transaction</button>
 
-      <form className="transaction-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Description</th>
-              <th>Category</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredTransactions.map((transaction, index) => (
-              <tr key={index}>
-                <td>{transaction.date}</td>
-                <td>{transaction.description}</td>
-                <td>{transaction.category}</td>
-                <td>${transaction.amount.toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </form>
+      <Search transactions={transactions} />
+      
+    </div>
+    
     </div>
   );
 }
