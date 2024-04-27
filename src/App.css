@@ -2,8 +2,9 @@
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
-  background-color: #f1f1f1;
+  background-color: rgb(238, 233, 233);
   border-radius: 8px;
+  
 }
 
 .header {
